@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { Hello } from './components/hello';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Hello name="Jia Wei"/>
   </React.StrictMode>,
   document.getElementById('root')
 );
