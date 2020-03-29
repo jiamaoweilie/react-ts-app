@@ -2,11 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import { Hello } from './components/hello';
+import { Header } from './components/header';
+import { PersonalInfo } from './components/personalInfo';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Hello name="Jia Wei"/>
+    <Header/>
+    <PersonalInfo/>
   </React.StrictMode>,
   document.getElementById('root')
 );
