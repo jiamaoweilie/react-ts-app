@@ -13,6 +13,14 @@ export class PersonalInfo extends React.Component<{}, IPersonalInfoState>{
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    onFirtNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void = e => {
+        this.setState({ firstName: e.currentTarget.value });
+    }
+
+    onLastNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void = e => {
+        this.setState({ lastName: e.currentTarget.value });
+    }
+
     handleSubmit: (e: React.ChangeEvent<HTMLFormElement>) => void = e =>{
         const firstName = e.currentTarget["first-name"].value;
         const lastName = e.currentTarget["last-name"].value;
@@ -23,14 +31,14 @@ export class PersonalInfo extends React.Component<{}, IPersonalInfoState>{
 
     public render(){
         return (
-            <div>
+            <div className="form">
                 <h2>Personal Info</h2>
                 <form className="input-form" onSubmit={this.handleSubmit}>
-                <label className="input-label" htmlFor="first-name">First Name:</label>
-                <input className="text-input" id="first-name"></input>
-                <label className="input-label" htmlFor="first-name">Last Name:</label>
-                <input className="text-input" id="last-name"></input>
-                <button>Submit</button>
+                    <label className="input-label" htmlFor="first-name">First Name:</label>
+                    <input className="text-input" id="first-name" onChange={this.onFirtNameChange}></input>
+                    <label className="input-label" htmlFor="last-name">Last Name:</label>
+                    <input className="text-input" id="last-name" onChange={this.onLastNameChange}></input>
+                    <button disabled={!this.state.lastName || !this.state.firstName}>Submit</button>
                 </form>
             </div>
         );
