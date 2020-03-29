@@ -1,4 +1,5 @@
 import * as React from "react";
+import "./personalInfo.css";
 
 export interface IPersonalInfoState {
     firstName: string;
@@ -34,11 +35,21 @@ export class PersonalInfo extends React.Component<{}, IPersonalInfoState>{
             <div className="form">
                 <h2>Personal Info</h2>
                 <form className="input-form" onSubmit={this.handleSubmit}>
-                    <label className="input-label" htmlFor="first-name">First Name:</label>
-                    <input className="text-input" id="first-name" onChange={this.onFirtNameChange}></input>
-                    <label className="input-label" htmlFor="last-name">Last Name:</label>
-                    <input className="text-input" id="last-name" onChange={this.onLastNameChange}></input>
-                    <button disabled={!this.state.lastName || !this.state.firstName}>Submit</button>
+                    <div>
+                        <label className="input-label" htmlFor="first-name">First Name:</label>
+                    </div>
+                    <div>
+                        <input className="text-input" id="first-name" onChange={this.onFirtNameChange}></input>
+                    </div>
+                    <div>
+                        <label className="input-label" htmlFor="last-name">Last Name:</label>
+                    </div>
+                    <div>
+                        <input className="text-input" id="last-name" onChange={this.onLastNameChange}></input>
+                    </div>
+                    <div>
+                        <button className="button" disabled={!this.state.lastName || !this.state.firstName}>Submit</button>
+                    </div>
                 </form>
             </div>
         );
