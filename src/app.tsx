@@ -26,6 +26,8 @@ const App = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [gender, setGender] = useState('');
+    const [gradle, setGradle] = useState(defaultGradeItems);
+    const [skill, setSkill] = useState(defaultSkillItems);
 
     const handleSubmit: (e: React.ChangeEvent<HTMLFormElement>) => void = e => {
         const firstName = e.currentTarget["first-name"].value;
@@ -34,6 +36,30 @@ const App = () => {
         alert(`User Name：${firstName} ${lastName}`);
         e.preventDefault();
     };
+
+    const handleGradeChange = (item: SelectItem) => {
+        const updatedItem = gradle.map(gradleItem => {
+            return {
+                ...gradleItem,
+                isSelected: item.value === gradleItem.value
+            }
+        });
+
+        setGradle(updatedItem);
+    }
+
+    const handleSkillChange = (item: SelectItem) => {
+        const updatedItem = skill.map(skillItem => {
+            if (item.value === skillItem.value) {
+                return {
+                    ...skillItem, isSelected: !item.isSelected
+                }
+            }
+            return { ...skillItem }
+        });
+
+        setSkill(updatedItem);
+    }
 
     return (
         <div className="app">
@@ -75,16 +101,16 @@ const App = () => {
                     <Select
                         name="grade"
                         id="select-grade"
-                        items={defaultGradeItems}
+                        items={gradle}
                         labelName="Grade: "
-                        onItemClicked={item => { }}
+                        onItemClicked={handleGradeChange}
                     />
                     <Select
                         name="skill"
                         id="select-skill"
-                        items={defaultSkillItems}
+                        items={skill}
                         labelName="Skill: "
-                        onItemClicked={item => { }}
+                        onItemClicked={handleSkillChange}
                         isMultiple={true}
                     />
                     <button className="button" disabled={!lastName || !firstName}>Submit</button>

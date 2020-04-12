@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./index.css";
 
 export type SelectItem = {
     value: string;
@@ -28,13 +29,18 @@ const Select = (props: SelectProps) => {
     return (
         <>
             <label htmlFor={props.id}>{props.labelName}</label>
-            <div className="select-container" onClick={() => setOpenStatus(!isOpen)}>
-                <div>{selectedText}</div>
+            <div className="select-container" >
+                <div className="selected-text" onClick={() => setOpenStatus(!isOpen)}>
+                    {selectedText ? selectedText : "Please select"}
+                </div>
                 {isOpen && (
-                    <ul>
+                    <ul className="select-options-container">
                         {
                             props.items.map((item) => (
-                                <li key={item.value} onClick={() => props.onItemClicked(item)}>
+                                <li 
+                                className={`select-option ${item.isSelected ? "is-selected" : ""}`} 
+                                key={item.value} 
+                                onClick={() => props.onItemClicked(item)}>
                                     {item.text}
                                 </li>
                             ))
@@ -49,6 +55,7 @@ const Select = (props: SelectProps) => {
                     onChange={f => { }}
                     value={props.isMultiple ? selectedValues : selectedValues.join(";")}
                     multiple={props.isMultiple}
+                    className="native-select"
                 >
                     {props.items.map(item => (
                         <option
