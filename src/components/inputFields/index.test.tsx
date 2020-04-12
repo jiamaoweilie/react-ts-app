@@ -27,19 +27,19 @@ describe("test InputField component", () => {
             ) => void = event => {
                 expect(event.currentTarget.value).toBe("NewTestValue");
                 done();
-            }
+        };
 
-            const {getByDisplayValue} = render(
-                <InputField
-                    labelName="TestLabelName"
-                    name="TestName"
-                    value="TestValue"
-                    id="TestId"
-                    onChange={ handleInputChange }
-                />
-            )
+        const {getByDisplayValue} = render(
+            <InputField
+                labelName="TestLabelName"
+                name="TestName"
+                value="TestValue"
+                id="TestId"
+                onChange={ handleInputChange }
+            />
+        )
 
-            const input = getByDisplayValue("TestValue");
-            fireEvent.change(input, {target: {value: "NewTestValue"}})
+        const input = getByDisplayValue("TestValue");
+        fireEvent.change(input, {target: {value: "NewTestValue"}})
     });
 }); 
