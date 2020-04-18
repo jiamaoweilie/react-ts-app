@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./app.css";
 import InputField from './components/inputFields';
 import RedioInput from './components/redioInput';
 import Select, { SelectItem } from './components/select';
 import { useSingleSelection } from './components/customHooks/useSingleSelection';
 import { useMultipleSelections } from './components/customHooks/useMutipleSelections';
+import { useProviceCitys } from './components/customHooks/useProviceCitys';
+import { PROVINCE_NAMES } from "./constants/citys";
 
 const defaultGradeItems: SelectItem[] = [
     { value: "junior", text: "Junior Consultant", isSelected: false },
@@ -30,6 +32,37 @@ const App = () => {
     const [gender, setGender] = useState('');
     const [gradle, setSelectedGrade] = useSingleSelection(defaultGradeItems);
     const [skill, setSelectedSkill] = useMultipleSelections(defaultSkillItems);
+    const [citys, setCitys] = useProviceCitys("");
+
+    const cityItmes: SelectItem[] = citys.map(city => ({
+        value: city.citysName,
+        text: city.citysName,
+        isSelected: false,
+    }));
+
+    const provinceItems: SelectItem[] = PROVINCE_NAMES.map(provinceName => ({
+        value: provinceName,
+        text: provinceName,
+        isSelected: false,
+    }))
+
+    const [provinceSelections, setProviceSelections] = useSingleSelection(provinceItems);
+
+    const [citySelections, setCitySelections, resetCitySelections] = useSingleSelection(cityItmes);
+
+    useEffect(() => {
+        if(citys.length === 0) {
+            return;
+        }
+        if (!citys.some(city => citySelections.find(citySelection => citySelection.value === city.citysName))) {
+            const newCitySelections: SelectItem[] = citys.map(city => ({
+                value: city.citysName,
+                text: city.citysName,
+                isSelected: false,
+            }))
+            resetCitySelections(newCitySelections);
+        }
+    }, [citys, citySelections, resetCitySelections]);
 
     const handleSubmit: (e: React.ChangeEvent<HTMLFormElement>) => void = e => {
         const firstName = e.currentTarget["first-name"].value;
@@ -89,6 +122,21 @@ const App = () => {
                         items={skill}
                         labelName="Skill: "
                         onItemClicked={setSelectedSkill}
+                        isMultiple={true}
+                    />
+                    <Select
+                        name="provice"
+                        id="select-provice"
+                        items={provinceSelections}
+                        labelName="Province: "
+                        onItemClicked={selectedProvince => { setProviceSelections(selectedProvince); setCitys(selectedProvince.value) }}
+                    />
+                    <Select
+                        name="city"
+                        id="select-city"
+                        items={citySelections}
+                        labelName="City: "
+                        onItemClicked={setCitySelections}
                         isMultiple={true}
                     />
                     <button className="button" disabled={!lastName || !firstName}>Submit</button>

@@ -40,7 +40,8 @@ const Select = (props: SelectProps) => {
                                 <li 
                                 className={`select-option ${item.isSelected ? "is-selected" : ""}`} 
                                 key={item.value} 
-                                onClick={() => props.onItemClicked(item)}>
+                                onClick={() => {props.onItemClicked(item); setOpenStatus(false);}
+                                }>
                                     {item.text}
                                 </li>
                             ))
