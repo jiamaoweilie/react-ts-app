@@ -3,6 +3,8 @@ import "./app.css";
 import InputField from './components/inputFields';
 import RedioInput from './components/redioInput';
 import Select, { SelectItem } from './components/select';
+import { useSingleSelection } from './components/customHooks/useSingleSelection';
+import { useMultipleSelections } from './components/customHooks/useMutipleSelections';
 
 const defaultGradeItems: SelectItem[] = [
     { value: "junior", text: "Junior Consultant", isSelected: false },
@@ -26,8 +28,8 @@ const App = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [gender, setGender] = useState('');
-    const [gradle, setGradle] = useState(defaultGradeItems);
-    const [skill, setSkill] = useState(defaultSkillItems);
+    const [gradle, setSelectedGrade] = useSingleSelection(defaultGradeItems);
+    const [skill, setSelectedSkill] = useMultipleSelections(defaultSkillItems);
 
     const handleSubmit: (e: React.ChangeEvent<HTMLFormElement>) => void = e => {
         const firstName = e.currentTarget["first-name"].value;
@@ -35,30 +37,6 @@ const App = () => {
 
         alert(`User Name：${firstName} ${lastName}`);
         e.preventDefault();
-    };
-
-    const handleGradeChange = (item: SelectItem) => {
-        const updatedItem = gradle.map(gradleItem => {
-            return {
-                ...gradleItem,
-                isSelected: item.value === gradleItem.value
-            }
-        });
-
-        setGradle(updatedItem);
-    }
-
-    const handleSkillChange = (item: SelectItem) => {
-        const updatedItem = skill.map(skillItem => {
-            if (item.value === skillItem.value) {
-                return {
-                    ...skillItem, isSelected: !item.isSelected
-                }
-            }
-            return { ...skillItem }
-        });
-
-        setSkill(updatedItem);
     }
 
     return (
@@ -103,14 +81,14 @@ const App = () => {
                         id="select-grade"
                         items={gradle}
                         labelName="Grade: "
-                        onItemClicked={handleGradeChange}
+                        onItemClicked={setSelectedGrade}
                     />
                     <Select
                         name="skill"
                         id="select-skill"
                         items={skill}
                         labelName="Skill: "
-                        onItemClicked={handleSkillChange}
+                        onItemClicked={setSelectedSkill}
                         isMultiple={true}
                     />
                     <button className="button" disabled={!lastName || !firstName}>Submit</button>
